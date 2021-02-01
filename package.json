@@ -1,0 +1,27 @@
+{
+  "name": "labnote",
+  "version": "1.0.0",
+  "description": "Online lab documentation tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/draulpozas/LabNote.git"
+  },
+  "author": "Diego Pozas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/draulpozas/LabNote/issues"
+  },
+  "homepage": "https://github.com/draulpozas/LabNote#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "hbs": "^4.1.1",
+    "molarcalc": "^1.0.2",
+    "mongoose": "^5.11.14"
+  }
+}
