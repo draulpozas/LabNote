@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My products | LabNote</title>
+    {{> boots}}
+    <script>
+        function search(query) {
+            // If there's no query, take it from the input field
+            if (!query) {
+                let input = document.getElementById('query');
+                query = input.value;
+            }
+            let results = document.getElementById('results');
+
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    printResults(JSON.parse(this.responseText));
+                }
+            }
+            xhttp.open('GET', `/products/${query}`);
+            xhttp.send();
+        }
+
+        function printResults(results) {
+            console.log(results);
+            let container = document.getElementById('products');
+            let inner = '';
+
+            let i = 0;
+            console.log(results.products);
+            results.products.forEach(product => {
+                console.log(product._id);
+                // let id = product._id;
+                inner += `<li class="list-group-item"><h1>${product.name}</h1><small class="text-muted">(${product.formula} - ${product.mass} g/mol)</small><br><br><button class="btn btn-primary" onclick="loadEntries('${product._id}')">Show entries for this product</button></li>`; // For some unknown reason, it will fail if I put the product's id between double quotes.
+            });
+            container.innerHTML = inner;
+        }
+
+        function loadEntries(pid){
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    printEntries(JSON.parse(this.responseText));
+                }
+            }
+            xhttp.open('GET', `/${pid}/entries`);
+            xhttp.send();
+
+            // console.log();
+        }
+
+        function printEntries(results) {
+            console.log(results);
+            let container = document.getElementById('entries');
+            let inner = '';
+
+            let i = 0;
+            console.log(results.entries);
+            results.entries.forEach(entry => {
+                inner += `<li class="list-group-item"><h3>${entry.title}</h3><small class="text-muted">Yield: ${entry.yield}%</small><br><a href="/read/${entry._id}">Read this entry</a></li>`; // For some unknown reason, it will fail if I put the product's id between double quotes.
+            });
+            container.innerHTML = inner;
+        }
+
+        window.onload = search('*'); // Start by showing all products
+    </script>
+</head>
+<body>
+    {{> nav}}
+    <div class="container">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">🔍</span>
+            </div>
+            <input autofocus="true" autocomplete="off" id="query" type="text" onkeyup="search()">
+            {{!-- <button onclick="search()">search</button> --}}
+        </div>
+
+        <div class="row">
+            <div class="col-6" id="product-list"><ul class="list-group" id="products"></ul></div>
+            <div class="col-6" id="entry-list"><ul class="list-group" id="entries"></ul></div>
+        </div>
+    </div>
+</body>
+</html>

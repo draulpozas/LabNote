@@ -2,6 +2,8 @@ const app = require('express')();
 const mongoose = require('mongoose');
 const Entry = require('../models/entry');
 const bparser = require('body-parser');
+const showdown = require('showdown');
+showdown.setOption('tasklists', true);
 
 // body-parser config
 app.use(bparser.urlencoded({extended:false}));
@@ -17,6 +19,9 @@ app.get('/entry/:entryid', (req, res) => {
                 err
             });
         } else {
+            let conv = new showdown.Converter();
+            entry.body = conv.makeHtml(entry.body);
+
             res.json({
                 ok: true,
                 entry

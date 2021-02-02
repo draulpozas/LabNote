@@ -22,6 +22,7 @@
     "express-fileupload": "^1.2.1",
     "hbs": "^4.1.1",
     "molarcalc": "^1.0.2",
-    "mongoose": "^5.11.14"
+    "mongoose": "^5.11.14",
+    "showdown": "^1.9.1"
   }
 }
