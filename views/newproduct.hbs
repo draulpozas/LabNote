@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{> boots}}
+    <title>New product | LabNote</title>
+</head>
+<body>
+    {{> nav}}
+    <div class="container">
+        <form action="/product" method="post">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Name your product: </span>
+                </div>
+                <input type="text" name="name" id="name" required autocomplete="off" autofocus class="form-control">
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Enter the product's formula (optional): </span>
+                </div>
+                <input type="text" name="formula" id="formula" autocomplete="off" class="form-control">
+            </div>
+            <div class="input-group">
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</body>
+</html>

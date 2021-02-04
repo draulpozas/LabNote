@@ -22,6 +22,8 @@ app.use(require('./paths/entry.js'));
 // pages
 app.get('/', function(req, res) {res.render('products');});
 app.get('/read/:entryid', (req, res) => {res.render('entry', {id:req.params.entryid});});
+app.get('/new/product', (req, res) => {res.render('newproduct')});
+app.get('/new/entry/:pid', (req, res) => {res.render('newentry', {pid:req.params.pid});});
 
 // port setup
 app.listen(process.env.PORT, () => {

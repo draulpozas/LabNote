@@ -56,14 +56,14 @@ app.get('/entries/:query', (req, res) => {
 });
 
 // Save new entry
-app.post('/entry', (req, res) => {
+app.post('/entry/:productid', (req, res) => {
     // console.log('posting entry');
     let reqBody = req.body;
     let entry = new Entry({
         title:reqBody.title,
         body:reqBody.entrybody,
         yield:reqBody.yield,
-        productid:mongoose.Types.ObjectId(reqBody.productid)
+        productid:mongoose.Types.ObjectId(req.params.productid)
     });
 
     entry.save((err, entryData) => {

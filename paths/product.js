@@ -112,12 +112,43 @@ app.post('/product', (req, res) => {
                 err
             });
         } else {
+            // res.json({
+            //     ok: true,
+            //     productData
+            // });
+            res.redirect('/');
+        }
+    });
+});
+
+app.delete('/remove/product/:productid', (req, res) => {
+    let pid = req.params.productid;
+    // First we should delete all entries related to that product
+    // Entry.find({productid: mongoose.Types.ObjectId(pid)}, (err, entries) => {
+    //     if (!err) {
+    //         entries.forEach(entry => {
+    //             console.log(entry);
+    //             Entry.findByIdAndDelete(mongoose.Types.ObjectId(entry._id));
+                Entry.deleteMany({productid: mongoose.Types.ObjectId(pid)});
+    //         });
+    //     }
+    // });
+    Product.findByIdAndDelete(pid, (err, deletedProduct) => {
+        if (err) {
+            res.status(400).json({
+                ok: false,
+                err
+            });
+        } else {
             res.json({
                 ok: true,
-                productData
+                deletedProduct
             });
         }
     });
+
+
+
 });
 
 module.exports = app;

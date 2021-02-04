@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Entry | LabNote</title>
+    {{> boots}}
+    <script>
+
+    </script>
+</head>
+<body>
+    {{> nav}}
+    <div class="container-fluid">
+        <form action="/entry/{{pid}}" method="post">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Title: </span>
+                </div>
+                <input type="text" name="title" id="title" required autofocus autocomplete="off" class="form-control">
+            </div>
+            <div class="input-group">
+                <label for="entrybody"></label>
+                <textarea name="entrybody" id="entrybody" cols="30" rows="20" class="form-control text-monospace"></textarea>
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Yield: </span>
+                </div>
+                <input type="number" name="yield" id="yield" max="100" min="0" step="1" class="form-control">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon1">%</span>
+                </div>
+            </div>
+            {{!-- <input type="text" class="hidden"> --}}
+            <input type="submit" value="Save" class="btn btn-primary">
+        </form>
+    </div>
+</body>
+</html>
