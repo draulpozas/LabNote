@@ -73,10 +73,11 @@ app.post('/entry/:productid', (req, res) => {
                 err
             });
         } else {
-            res.json({
-                ok: true,
-                entryData
-            });
+            res.redirect('/');
+            // res.json({
+            //     ok: true,
+            //     entryData
+            // });
         }
     });
 });
