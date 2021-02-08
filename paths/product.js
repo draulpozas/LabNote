@@ -99,10 +99,20 @@ app.get('/:productid/entries', (req, res) => {
 // Save new products
 app.post('/product', (req, res) => {
     let reqBody = req.body;
+    
+    // If the provided product's mass is invalid or unspecified, it will be automatically calculated
+    let mass;
+    if (reqBody.mass && /(^\d+$)|(^\d+\.\d+$)/.test(reqBody.mass)) {
+        mass = reqBody.mass;
+    } else {
+        console.log(reqBody.formula);
+        mass = molarcalc.calc(reqBody.formula).mass;
+    }
+
     let product = new Product({
         name:reqBody.name,
         formula:reqBody.formula,
-        mass:molarcalc.calc(reqBody.formula).mass // mass is automatically calculated so no need to make the user search for it, just the formula
+        mass
     });
 
     product.save((err, productData) => {
@@ -124,12 +134,12 @@ app.post('/product', (req, res) => {
 app.delete('/remove/product/:productid', (req, res) => {
     let pid = req.params.productid;
     // First we should delete all entries related to that product
+    Entry.deleteMany({productid: mongoose.Types.ObjectId(pid)});
     // Entry.find({productid: mongoose.Types.ObjectId(pid)}, (err, entries) => {
     //     if (!err) {
     //         entries.forEach(entry => {
     //             console.log(entry);
     //             Entry.findByIdAndDelete(mongoose.Types.ObjectId(entry._id));
-                Entry.deleteMany({productid: mongoose.Types.ObjectId(pid)});
     //         });
     //     }
     // });

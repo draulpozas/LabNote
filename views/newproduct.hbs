@@ -23,6 +23,12 @@
                 <input type="text" name="formula" id="formula" autocomplete="off" class="form-control">
             </div>
             <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Molar mass: </span>
+                </div>
+                <input type="text" name="mass" id="mass" autocomplete="off" class="form-control" placeholder="Leave blank to calculate automatically from formula" pattern="(^\d+$)|(\d+\.\d+)">
+            </div>
+            <div class="input-group">
                 <input type="submit" value="Submit" class="btn btn-primary">
             </div>
         </form>
