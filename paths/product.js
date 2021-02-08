@@ -39,10 +39,7 @@ app.get('/products/:query', (req, res) => {
     // Now that the filter is built appropriately, we use it:
     Product.find(filter, 'name formula mass', (err, products) => { // second argument are the fields that mongo is going to send back. I assume it just sends everything if unspecified
         if (err) {
-            res.status(400).json({
-                ok: false,
-                err
-            });
+            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
         } else {
             res.json({
                 ok: true,
@@ -60,10 +57,7 @@ app.get('/product/:productid', (req, res) => {
 
     Product.findById(productid, (err, product) => { // second argument are the fields that mongo is going to send back. I assume it just sends everything if unspecified
         if (err) {
-            res.status(400).json({
-                ok: false,
-                err
-            });
+            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
         } else {
             res.json({
                 ok: true,
@@ -83,10 +77,7 @@ app.get('/:productid/entries', (req, res) => {
 
     Entry.find(filter, 'title yield', (err, entries) => {
         if (err) {
-            res.status(400).json({
-                ok: false,
-                err
-            });
+            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
         } else {
             res.json({
                 ok: true,
@@ -105,7 +96,6 @@ app.post('/product', (req, res) => {
     if (reqBody.mass && /(^\d+$)|(^\d+\.\d+$)/.test(reqBody.mass)) {
         mass = reqBody.mass;
     } else {
-        console.log(reqBody.formula);
         mass = molarcalc.calc(reqBody.formula).mass;
     }
 
@@ -117,10 +107,7 @@ app.post('/product', (req, res) => {
 
     product.save((err, productData) => {
         if (err) {
-            res.status(400).json({
-                ok: false,
-                err
-            });
+            res.status(400).redirect(`/error/${err.message}`);
         } else {
             // res.json({
             //     ok: true,
@@ -145,10 +132,7 @@ app.delete('/remove/product/:productid', (req, res) => {
     // });
     Product.findByIdAndDelete(pid, (err, deletedProduct) => {
         if (err) {
-            res.status(400).json({
-                ok: false,
-                err
-            });
+            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
         } else {
             res.json({
                 ok: true,

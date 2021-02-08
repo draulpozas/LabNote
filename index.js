@@ -25,6 +25,8 @@ app.get('/read/:entryid', (req, res) => {res.render('entry', {id:req.params.entr
 app.get('/new/product', (req, res) => {res.render('newproduct')});
 app.get('/new/entry/:pid', (req, res) => {res.render('newentry', {pid:req.params.pid});});
 
+app.get('/error/:errorbody', (req, res) => {res.render('error', {errorbody:req.params.errorbody})});
+
 // port setup
 app.listen(process.env.PORT, () => {
     console.log('listening through ', process.env.PORT);
