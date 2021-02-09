@@ -39,7 +39,7 @@ app.get('/products/:query', (req, res) => {
     // Now that the filter is built appropriately, we use it:
     Product.find(filter, 'name formula mass', (err, products) => { // second argument are the fields that mongo is going to send back. I assume it just sends everything if unspecified
         if (err) {
-            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
+            res.status(400).render('error', {err});
         } else {
             res.json({
                 ok: true,
@@ -57,12 +57,9 @@ app.get('/product/:productid', (req, res) => {
 
     Product.findById(productid, (err, product) => { // second argument are the fields that mongo is going to send back. I assume it just sends everything if unspecified
         if (err) {
-            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
+            res.status(400).render('error', {err});
         } else {
-            res.json({
-                ok: true,
-                product
-            });
+            res.render('savedproduct', {product});
         }
     });
 
@@ -77,7 +74,7 @@ app.get('/:productid/entries', (req, res) => {
 
     Entry.find(filter, 'title yield', (err, entries) => {
         if (err) {
-            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
+            res.status(400).render('error', {err});
         } else {
             res.json({
                 ok: true,
@@ -107,13 +104,13 @@ app.post('/product', (req, res) => {
 
     product.save((err, productData) => {
         if (err) {
-            res.status(400).redirect(`/error/${err.message}`);
+            res.status(400).render('error', {err});
         } else {
             // res.json({
             //     ok: true,
             //     productData
             // });
-            res.redirect('/');
+            res.redirect(`/product/${productData._id}`);
         }
     });
 });
@@ -132,7 +129,7 @@ app.delete('/remove/product/:productid', (req, res) => {
     // });
     Product.findByIdAndDelete(pid, (err, deletedProduct) => {
         if (err) {
-            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
+            res.status(400).render('error', {err});
         } else {
             res.json({
                 ok: true,

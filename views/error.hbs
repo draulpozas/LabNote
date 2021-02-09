@@ -10,8 +10,9 @@
 <body>
     {{> nav}}
     <div class="container">
+        <div class="alert alert-danger">An error occurred</div>
         <h1>Something went wrong</h1>
-        <div class="alert alert-danger">{{errorbody}}</div>
+        <p>{{err.message}}</p>
     </div>
     
 </body>

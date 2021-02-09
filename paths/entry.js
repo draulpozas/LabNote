@@ -14,7 +14,7 @@ app.get('/entry/:entryid', (req, res) => {
     let entryid = req.params.entryid;
     Entry.findById(entryid, (err, entry) => {
         if (err) {
-            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
+            res.status(400).render('error', {err});
         } else {
             let conv = new showdown.Converter();
             entry.body = conv.makeHtml(entry.body);
@@ -39,7 +39,8 @@ app.get('/entries/:query', (req, res) => {
 
     Entry.find(filter, (err, entries) => {
         if (err) {
-            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
+            // res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
+            res.status(400).render('error', {err});
         } else {
             res.json({
                 ok: true,
@@ -62,9 +63,9 @@ app.post('/entry/:productid', (req, res) => {
 
     entry.save((err, entryData) => {
         if (err) {
-            res.status(400).redirect(`/error/${err.errors.name}/${err.message}`);
+            res.status(400).render('error', {err});
         } else {
-            res.redirect('/');
+            res.redirect('/read/'+entryData._id);
             // res.json({
             //     ok: true,
             //     entryData
