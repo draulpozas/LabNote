@@ -59,7 +59,10 @@ app.get('/product/:productid', (req, res) => {
         if (err) {
             res.status(400).render('error', {err});
         } else {
-            res.render('savedproduct', {product});
+            res.json({
+                ok:true,
+                product
+            });
         }
     });
 
@@ -110,7 +113,21 @@ app.post('/product', (req, res) => {
             //     ok: true,
             //     productData
             // });
-            res.redirect(`/product/${productData._id}`);
+            // res.redirect(`/product/${productData._id}`);
+            res.render('savedproduct', {product:productData});
+        }
+    });
+});
+
+app.post('/product/:productid', (req, res) => { // It SHOULD be "put", but HTML forms only support GET and POST, for some reason? https://stackoverflow.com/questions/8054165/using-put-method-in-html-form
+    let pid = req.params.productid;
+    let reqBody = req.body;
+    console.log(req);
+    Product.findByIdAndUpdate(pid, reqBody, (err, product) => {
+        if (err) {
+            res.status(400).render('error', err);
+        } else {
+            res.redirect('/');
         }
     });
 });

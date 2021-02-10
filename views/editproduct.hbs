@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit product | Labnote</title>
+    {{> boots}}
+    <script>
+        function init(){
+            let pid = document.body.id;
+
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                console.log(this.responseText);
+                let product = JSON.parse(this.responseText).product;
+                document.getElementById('name').value = product.name;
+                document.getElementById('formula').value = product.formula;
+                document.getElementById('mass').value = product.mass;
+            };
+            xhr.open('GET', `/product/${pid}`);
+            xhr.send();
+        };
+
+        window.onload = init;
+    </script>
+</head>
+<body id="{{pid}}">
+    {{> nav}}
+    <div class="container">
+        <form action="/product/{{pid}}" method="post">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Name your product: </span>
+                </div>
+                <input type="text" name="name" id="name" required autocomplete="off" autofocus class="form-control">
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Enter the product's formula (optional): </span>
+                </div>
+                <input type="text" name="formula" id="formula" autocomplete="off" class="form-control">
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Molar mass: </span>
+                </div>
+                <input type="text" name="mass" id="mass" autocomplete="off" class="form-control" placeholder="Leave blank to calculate automatically from formula" pattern="(^\d+$)|(\d+\.\d+)">
+            </div>
+            <div class="input-group">
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </div>
+            {{!-- <input type="hidden" name="_method" value="put" /> {{!-- Since HTML forms don't support PUT requests (not sure why), I'm doing this: https://stackoverflow.com/questions/8054165/using-put-method-in-html-form --}}
+        </form>
+    </div>
+</body>
+</html>
